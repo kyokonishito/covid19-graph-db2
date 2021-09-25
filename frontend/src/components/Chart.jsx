@@ -45,6 +45,7 @@ export const Chart = (props) => {
   const [chartInstance, setChartInstance] = useState(null);
 
   const [message, setMessage] = useState("");
+  const [displayLoding, setDisplayLoding] = useState(false);
   const { todate } = props;
   const { fromdate } = props;
 
@@ -70,7 +71,8 @@ export const Chart = (props) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ todate: todate, fromdate: fromdate }),
     };
-    
+    setMessage("");
+    setDisplayLoding(true);
     fetch(API_ENDPOINT + "/getdata", requestOptions)
       .then((res) => {
         return res.json();
@@ -87,8 +89,11 @@ export const Chart = (props) => {
       .catch((error) => {
         setMessage("Error for accesing to " + API_ENDPOINT + "/getdata");
         return;
-    })
-    ;
+      })
+      .finally(()=>{
+        setDisplayLoding(false);   
+        return;   
+    });
   };
 
   return (
@@ -106,16 +111,35 @@ export const Chart = (props) => {
           </div>
         ) : null}
       </div>
-      <div className="col-sm-2">
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={() => onClickShow()}
-        >
-          表示
-        </button>
+      
+      <div className="row">
+        {!displayLoding ? (
+
+          <div className="col-sm-2">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => onClickShow()}
+            >
+              表示
+            </button>
+          </div>
+        ) :
+          <div className="col-sm-6">
+            <div className="progress">
+              <div
+                className="progress-bar progress-bar-striped progress-bar-animated"
+                role="progressbar"
+                aria-valuenow="100"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                style={{ width: '100%' }}
+              >Loading</div>
+            </div>
+          </div>
+        }
       </div>
-       <canvas ref={chartContainer} /> 
+      <canvas ref={chartContainer} />
     </div>
   );
 };

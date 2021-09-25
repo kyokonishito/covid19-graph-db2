@@ -16,6 +16,7 @@ class Db2dataTool:
     crn = None
     url = None
     token = None
+    tablename = None
 
     def __init__(self, db2info):
         self.userid = db2info['USERID']
@@ -23,6 +24,7 @@ class Db2dataTool:
         self.dbname = db2info['DBNAME']
         self.crn = db2info['CRN']
         self.url = db2info['URL']
+        self.tablename =  db2info['TABLENAME']
 
     def __handleError(self, msg):
         logging.error(msg)
@@ -70,6 +72,7 @@ class Db2dataTool:
 
         start = time.time()
         df = pd.DataFrame()
+        message = ''
         while True:
             try:
                 r = requests.get(host, headers=headers,  verify = False)
@@ -85,14 +88,16 @@ class Db2dataTool:
                 message = r.json()["results"][0]["error"]
                 return self.__handleError(message)
             
-            if len(r.json()["results"]) > 0 :
-                if r.json()["results"][0]["rows_count"] > 0:
+            if "results" in r.json():
+                if "rows_count" in r.json()["results"][0]:
                     print(r.json()["results"][0]["rows_count"])
                     if len(df) < 1:
                         df = pd.DataFrame(data=r.json()["results"][0]["rows"] , columns =['labels', 'data'])
                     else:
                         df = df.append(r.json()["results"][0]["rows"])
-
+                else:
+                    message = "Error :%s"%(r.json()["results"][0])
+            
             if r.json()["status"] == "completed":
                 break             
 
@@ -101,8 +106,9 @@ class Db2dataTool:
                 return self.__handleError(message)
         
         try:
-            if len(df) < 1:
-                message = "No result data from %s to %s. "%(fromdate, todate)
+            if len(df) < 1 :
+                if len(message) < 1:
+                    message = "No result data from %s to %s. "%(fromdate, todate)
                 return self.__handleError(message)
             
             df['data'] = df['data'].astype(int)
@@ -135,8 +141,8 @@ class Db2dataTool:
         headers ['authorization'] =  'Bearer ' + self.token
 
         
-        sqlstr = "SELECT 公表_年月日, count(公表_年月日) AS 人数 FROM NISHITO.COVID_19_東京 WHERE  公表_年月日 BETWEEN '%s' AND '%s' GROUP BY 公表_年月日;" % (
-            fromdate, todate)
+        sqlstr = "SELECT 公表_年月日, count(公表_年月日) AS 人数 FROM %s WHERE  公表_年月日 BETWEEN '%s' AND '%s' GROUP BY 公表_年月日;" % (
+            self.tablename, fromdate, todate)
 
         body ={
            "commands":  sqlstr,

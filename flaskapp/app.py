@@ -25,6 +25,7 @@ db2info['USERID']= os.environ.get("USERID");
 db2info['PASSWD']= os.environ.get("PASSWD");
 db2info['URL']= os.environ.get("URL");
 db2info['CRN']= os.environ.get("CRN");
+db2info['TABLENAME']= os.environ.get("TABLENAME");
    
 @app.route('/')
 def root():
