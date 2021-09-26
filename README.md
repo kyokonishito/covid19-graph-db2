@@ -126,7 +126,7 @@ http://localhost:3000/
 ## 画面
 - 画面は[bootswatch](https://bootswatch.com/)を使用しています。スタイルを変更したい場合は[covid19-graph-db2/frontend/src/App.jsx](https://github.com/kyokonishito/covid19-graph-db2/blob/main/frontend/src/App.jsx)の`import "bootswatch/dist/cerulean/bootstrap.min.css";`の`cerulean`を違うテーマ名に変えてみてください。
 
-- グラフは[Chart.jsx](https://github.com/kyokonishito/covid19-graph-db2/blob/main/frontend/src/components/Chart.jsx)で描いています。
+- グラフは[covid19-graph-db2/frontend/src/components/Chart.jsx](https://github.com/kyokonishito/covid19-graph-db2/blob/main/frontend/src/components/Chart.jsx)で描いています。
 
 ## Flaskバックエンド
 
