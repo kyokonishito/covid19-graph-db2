@@ -17,6 +17,7 @@ Macのコマンドで以下は記載していますが、Windowsでも環境変�
     - python 
 
 2. Db2 on Cloudのインスタンスとデータ準備
+ - [「1. 前準備　Db2 on Cloud」を参照](https://qiita.com/nishikyon/items/1bea871982d38b6ca02d#1-%E5%89%8D%E6%BA%96%E5%82%99db2-on-cloud)
 
 
 ## 手順
@@ -120,10 +121,10 @@ http://localhost:3000/
 
 
 
-# ちょっと変更してみたい人向けの解説
+# ちょっと変更してみたい人向けのヒント
 
 ## 画面
-- 画面は[bootswatch](https://bootswatch.com/)を使用しています。スタイルを変更したい場合は[App.jsx](https://github.com/kyokonishito/covid19-graph-db2/blob/main/frontend/src/App.jsx)の`import "bootswatch/dist/cerulean/bootstrap.min.css";`の`cerulean`を違うテーマ名に変えてみてください。
+- 画面は[bootswatch](https://bootswatch.com/)を使用しています。スタイルを変更したい場合は[covid19-graph-db2/frontend/src/App.jsx](https://github.com/kyokonishito/covid19-graph-db2/blob/main/frontend/src/App.jsx)の`import "bootswatch/dist/cerulean/bootstrap.min.css";`の`cerulean`を違うテーマ名に変えてみてください。
 
 - グラフは[Chart.jsx](https://github.com/kyokonishito/covid19-graph-db2/blob/main/frontend/src/components/Chart.jsx)で描いています。
 
@@ -131,11 +132,11 @@ http://localhost:3000/
 
 - [Db2 REST API](https://cloud.ibm.com/apidocs/db2-on-cloud/db2-on-cloud-v4)を使ってDb2にアクセスしてます。
 
-- SQLは[db2data.py](https://github.com/kyokonishito/covid19-graph-db2/blob/main/flaskapp/db2data.py)の中の`sqlstr`で設定しています。
+- SQLは[covid19-graph-db2/flaskapp/db2data.py](https://github.com/kyokonishito/covid19-graph-db2/blob/main/flaskapp/db2data.py)の中の`sqlstr`で設定しています。
 
-- [app.py](https://github.com/kyokonishito/covid19-graph-db2/blob/main/flaskapp/app.py)の`def apply_caching`でLocal用のCORS対応をしています。
+- [covid19-graph-db2/flaskapp/app.py](https://github.com/kyokonishito/covid19-graph-db2/blob/main/flaskapp/app.py)の`def apply_caching`でLocal用のCORS対応をしています。
 
 ## CodeEngineにデプロイする時
 - エンドポイントの設定はオリジナルの[covid19-graph-db2/frontend/.env](https://github.com/kyokonishito/covid19-graph-db2/blob/main/frontend/.env)を使用してください。
 
-- githubに`flaskapp/.env_local_sample`をコピーした.envはアップしないように気を付けてください。オリジナルの[.gitignore](https://github.com/kyokonishito/covid19-graph-db2/blob/main/.gitignore)はアップロードしない様に指定していますので、これを使うようにしてください。
+- githubに[covid19-graph-db2/flaskapp/.env_local_sample](https://github.com/kyokonishito/covid19-graph-db2/blob/main/flaskapp/.env_local_sample)をコピーした.envはアップしないように気を付けてください。オリジナルの[.gitignore](https://github.com/kyokonishito/covid19-graph-db2/blob/main/.gitignore)はアップロードしない様に指定していますので、これを使うようにしてください。
